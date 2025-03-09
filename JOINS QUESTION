@@ -20,35 +20,52 @@ Hint: Use a LEFT JOIN to combine the Department and Student tables.
 Question 1:
 List all the departments and their students. If there are departments with no students, still show those departments in the result.
 Hint: Use a RIGHT JOIN between Department and Student to include all departments, even those without students.
-
+--> select sname,dname from student s right join department d on s.did = d.did
 Question 2:
-Find all students along with the names of their respective departments. Show all students, including those who might not have a valid department (if any).
+Find all students along with the names of their respective departments. 
+Show all students, including those who might not have a valid department (if any).
 Hint: Use a RIGHT JOIN to ensure that all students are included, even those with no department.
-
+--> select sname,dname from department d right join student s on d.did=s.did
 4. FULL JOIN:
 Question 1:
-List all students along with their department names, including students who are not assigned to any department and departments that have no students.
+List all students along with their department names, including students who are not assigned to any department 
+and departments that have no students.
 Hint: Use a FULL JOIN between Student and Department to include all students and all departments, even if they don't have corresponding records in the other table.
-
+--> select sname,dname from student s full join department d on s.did = d.did
 Question 2:
-Get a list of all departments and students, ensuring that departments with no students and students without a department are also shown.
+Get a list of all departments and students, ensuring that departments with no students and 
+students without a department are also shown.
 Hint: Use a FULL JOIN to combine the tables and include unmatched records.
-
+--> select sname,dname from student s full join department d on s.did = d.did
 5. CROSS JOIN:
 Question 1:
-Create a list of all possible combinations of students and departments. This should include every student paired with every department.
+Create a list of all possible combinations of students and departments. This should include every student paired 
+with every department.
 Hint: Use a CROSS JOIN to generate the Cartesian product of the Student and Department tables.
-
+--> select sname,dname from student s cross join department d on s.did = d.did
 Question 2:
-List all pairs of students and departments, including combinations where the same student appears with multiple departments and vice versa.
+List all pairs of students and departments, including combinations where the same student 
+appears with multiple departments and vice versa.
 Hint: Use a CROSS JOIN to generate every possible pairing of students and departments.
-
+--> select sname,dname from student s cross join department d on s.did = d.did
 6. SELF JOIN:
+
 Question 1:
 Find all students who share the same department. List their names and department names, but avoid duplicates.
-Hint: Use a SELF JOIN on the Student table by joining on the did (department ID) and ensuring different students are displayed.
+Hint: Use a SELF JOIN on the Student table by joining on the did (department ID) 
+and ensuring different students are displayed.
+--> SELECT DISTINCT s1.sname AS student_1, s2.sname AS student_2, d.dname AS department
+FROM Student s1
+JOIN Student s2 ON s1.did = s2.did
+JOIN Department d ON s1.did = d.did
+WHERE s1.sid < s2.sid;
 
 Question 2:
 List all pairs of students who have the same department and have a roll number greater than the other.
 Hint: Use a SELF JOIN to compare two different students in the same department, filtering based on roll number.
-
+-->> SELECT s1.sname AS student_1, s2.sname AS student_2, d.dname AS department
+FROM Student s1
+JOIN Student s2 ON s1.did = s2.did  -- Ensure both students are in the same department
+JOIN Department d ON s1.did = d.did
+WHERE s1.sid < s2.sid  -- Prevent pairing a student with themselves
+  AND s1.roll_no < s2.roll_no; 
